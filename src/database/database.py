@@ -13,8 +13,14 @@ url = URL.create(drivername="mariadb+aiomysql",
 
 async_engine = create_async_engine(
     url=url,
-    echo=True,
-    pool_pre_ping=True
+    echo=True
 )
 
 async_session_factory = async_sessionmaker(async_engine)
+# from src.database.models import Base
+# async def create_tables():
+#     async with async_engine.begin() as conn:
+#         await conn.run_sync(Base.metadata.drop_all)
+#         await conn.run_sync(Base.metadata.create_all)
+#     print('done')
+# asyncio.run(create_tables())

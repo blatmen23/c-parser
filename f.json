@@ -1,0 +1,47 @@
+{
+  "@context": "http:\/\/schema.org",
+  "type": "WebPage",
+  "headline": "\u042e\u043c\u043e\u0440 Topic Page",
+  "url": "https:\/\/pikabu.ru\/tag\/\u042e\u043c\u043e\u0440",
+  "keywords": "\u041a\u0430\u0440\u0442\u0438\u043d\u043a\u0430 \u0441 \u0442\u0435\u043a\u0441\u0442\u043e\u043c, \u041c\u0435\u043c\u044b, \u0421\u043a\u0440\u0438\u043d\u0448\u043e\u0442, \u0412\u0435\u0440\u0442\u0438\u043a\u0430\u043b\u044c\u043d\u043e\u0435 \u0432\u0438\u0434\u0435\u043e, \u041a\u043e\u0442, \u041c\u0430\u0442, \u041f\u043e\u0432\u0442\u043e\u0440"
+}</script><script type="text/javascript">(function(){
+  var
+  T=
+  "pkb_theme"
+  ;
+  var
+  h=document,
+  n=h.documentElement,
+  O=n.classList
+  ;
+  function
+  _(e,
+  r,
+  t){
+  return
+  e===r
+  |
+  |
+  e>r
+  &
+  &
+  (t>=e
+  &
+  &
+  t<1440
+  |
+  |
+  t>=0
+  &
+  &
+  t<r)
+  |
+  |
+  e<r
+  &
+  &
+  t>=e
+  &
+  &
+  t<r
+}var u=[],A=function(){try{var e=JSON.parse(localStorage.getItem(T));if(e.v!==1)return;var r=e.d, t=e.s, o=e.f, E=e.to, i=new Date, m={};m.originalThemeObj=e, o=typeof o=="number"&&o<1440?o: null, E=typeof E=="number"&&E<1440?E: null, i=i.getHours()*60+i.getMinutes(), r&&(!t||o!==null&&E!==null&&_(o, E, i))&&(m.useDarkTheme=!0);var c=u.indexOf(e.t);return c>-1&&(m.theme=u[c]), m}catch(e){}}, s=A(), l=window.matchMedia, M=l&&l("(prefers-color-scheme: dark)").matches;s&&s.theme&&n.setAttribute("data-theme", s.theme);(s&&s.useDarkTheme||!s&&M)&&(n.setAttribute("data-theme-dark", "true"), s||localStorage.setItem(T, JSON.stringify({d: !0})))})();</script><script type="application/json" class="app__config" data-entry="initParams">{"siteURL": "https:\/\/pikabu.ru\/", "imgURL": "https:\/\/cs.pikabu.ru\/", "uploadServerUrl": "https:\/\/u.pikabu.ru", "uploadVideoServerUrl": "https:\/\/v.pikabu.ru", "statUrl": "https:\/\/d.pikabu.ru", "environment": 225, "pageName": "search", "pageRecordID": "", "sessionID": "f2gjqejvvtek2t8lp7v97om4ps", "csrfToken": "ff9125dbd5c6a9dc9ef52cecae9e9d6d", "isStoryAnimPreview": true, "isCommAnimPreview": true, "isScrollTopBtn": true, "isNsfwStory": false, "isAjaxLoadMode": true, "isExpandedMode": true, "isFullStoryView": false, "uniqueBufferID": "8c249b580a", "maxCommentsBranchDepth": 1, "filterName": "", "isDeleted": false, "remainingRestoringDays": 0, "maxImageFileSize": 20971520, "swUrl": "\/sw.js", "swVersion": "a3dd0f450f37", "isAvailableMessageCommentsTyping": true, "is_client_error_catch": false, "isAvailableStoryViews": true, "isAvailableNewWaySaveVisits": true, "analyticsParameters":[], "tags_fold_mode": 0, "showTopHotStory": true, "isVideoAutoplayMode": true, "isAdsDisabled": false, "isAdsDisableAllowed": false, "isConfirmed": false, "userFlags": 0, "oauthLogin": "", "providerName": "", "isExternalReferer": true, "canShowSurvey": false, "aqpt": "8dfc8a9847812938933bff4f434a79ab", "isUserTopAuthor": false, "birthday_tasks":[""], "subsCommentsCount": 0, "userID": 0, "isSlowModeEnabled": false, "isNewUser": true, "isEmotionsEnabled": true, "emotionsTypesConfig": {"1": {"class": "smile", "hint": "\u0421\u043c\u0435\u0445"}, "2": {"class": "kind", "hint": "\u0414\u043e\u0431\u0440\u043e"}, "3":{"class": "surprised", "hint": "\u0423\u0434\u0438\u0432\u043b\u0435\u043d\u0438\u0435"},"4": {"class": "sad", "hint": "\u0413\u0440\u0443\u0441\u0442\u044c"}, "5": {"class": "angry", "hint": "\u0417\u043b\u043e\u0441\u0442\u044c"}}, "emotionsMinStoryId": 7209426, "LIMIT_MAX_BLOCKS_COUNT": 300, "LIMIT_MAX_MEDIA_BLOCKS_COUNT": 25, "LIMIT_IMAGES_BYTES": 20971520, "limitSeriesPerUser": 100, "limitStoriesInSeries": 1000, "cloudTipsMode": 1, "availableStoryBoosts": 0, "oauthError": 0, "oauthErrorMessage": ""}</script><link type="text/css" rel="stylesheet" href="https://cs.pikabu.ru/apps/ub/5.3.904/desktop/app.mo.css"><style>@font-face{font-family: Roboto;font-style:normal;font-weight: 400;font-display: block;src: url(https: //cs.pikabu.ru/apps/ub/5.0.1/desktop/style/roboto-regular.woff2)format("woff2")}@font-face{font-family:Roboto;font-style:italic;font-weight:400;font-display:block;src:url(https://cs.pikabu.ru/apps/ub/5.0.1/desktop/style/roboto-italic.woff2)format("woff2")}@font-face{font-family:Roboto;font-style:normal;font-weight:500;font-display:block;src:url(https://cs.pikabu.ru/apps/ub/5.0.1/desktop/style/roboto-500.woff2)format("woff2")}@font-face{font-family:Roboto;font-style:italic;font-weight:500;font-display:block;src:url(https://cs.pikabu.ru/apps/ub/5.0.1/desktop/style/roboto-500italic.woff2)format("woff2")}@font-face{font-family:Roboto;font-style:normal;font-weight:700;font-display:block;src:url(https://cs.pikabu.ru/apps/ub/5.0.1/desktop/style/roboto-bold.woff2)format("woff2")}@font-face{font-family:Roboto;font-style:italic;font-weight:700;font-display:block;src:url(https://cs.pikabu.ru/apps/ub/5.0.1/desktop/style/roboto-bold-italic.woff2)format("woff2")}@font-face{font-family:FontAwesome;font-display:block;src:url(https://cs.pikabu.ru/apps/ub/5.0.1/desktop/style/fontawesome.woff2)format("woff2");font-weight:400;font-style:normal}@font-face{font-family:Lato;font-style:normal;font-weight:400;font-display:block;src:url()format("woff2")}@font-face{font-family:Lato;font-style:italic;font-weight:400;font-display:block;src:url()format("woff2")}@font-face{font-family:Lato;font-style:normal;font-weight:500;font-display:block;src:url()format("woff2")}@font-face{font-family:Lato;font-style:italic;font-weight:500;font-display:block;src:url()format("woff2")}@font-face{font-family:Lato;font-style:normal;font-weight:700;font-display:block;src:url()format("woff2")}@font-face{font-family:Lato;font-style:italic;font-weight:700;font-display:block;src:url()format("woff2")}@font-face{font-family:Inter;font-style:normal;font-weight:400;font-display:block;src:url()format("woff2")}@font-face{font-family:Inter;font-style:italic;font-weight:400;font-display:block;src:url()format("woff2")}@font-face{font-family:Inter;font-style:normal;font-weight:500;font-display:block;src:url()format("woff2")}@font-face{font-family:Inter;font-style:italic;font-weight:500;font-display:block;src:url()format("woff2")}@font-face{font-family:Inter;font-style:normal;font-weight:700;font-display:block;src:url()format("woff2")}@font-face{font-family:Inter;font-style:italic;font-weight:700;font-display:block;src:url()format("woff2")}@font-face{font-family:Unbounded;font-weight:400;font-display:block;src:url(https://cs.pikabu.ru/apps/ub/5.3.828/desktop/style/unbounded-400.woff2)format("woff2")}@font-face{font-family:Unbounded;font-weight:700;font-display:block;src:url(https://cs.pikabu.ru/apps/ub/5.3.828/desktop/style/unbounded-700.woff2)format("woff2")}@font-face{font-family:Unbounded;font-weight:800;font-display:block;
