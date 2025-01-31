@@ -1,10 +1,11 @@
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
-from sqlalchemy import text, String, Integer, LargeBinary, TIMESTAMP, ForeignKey
+from sqlalchemy import text, String, LargeBinary, TIMESTAMP, ForeignKey
 
 from src.database.overbuilds import intpk, str_32, str_64, str_128, str_256, str_512
-from src.enums import Platforms, Categories, MediaTypes, FileTypes
+from src.schemas.enums import Platforms, Categories, MediaTypes, FileTypes
 
-from typing import Optional, List
+from typing import Optional
+
 
 class Base(DeclarativeBase):
     type_annotation_map = {

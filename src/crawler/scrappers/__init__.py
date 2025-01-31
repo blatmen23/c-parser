@@ -1,0 +1,2 @@
+from .pikabu_scrapper import PikabuScrapper
+from .ninegag_scrapper import NineGagScrapper
