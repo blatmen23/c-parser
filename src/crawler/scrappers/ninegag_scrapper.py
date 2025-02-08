@@ -2,7 +2,7 @@ import asyncio
 from aiohttp import ClientSession, ClientResponse
 from bs4 import BeautifulSoup
 from fake_useragent import UserAgent
-from src.crawler.scrapper import Scrapper
+from src.crawler.scrappers.scrapper import Scrapper
 
 class NineGagScrapper(Scrapper):
     urls: list = ["https://9gag.com/fresh",

@@ -5,15 +5,16 @@ from fake_useragent import UserAgent
 from aiohttp import ClientSession
 from playwright.async_api import Browser
 
+from src.schemas.schemas import Post
 from src.schemas.enums import FileTypes
 
 
-class Scrapper(ABC):
+class Scrapper(ABC, ScrapperFilter, ScrapperMediaDownloader):
     urls: list
 
     @classmethod
     @abstractmethod
-    async def get_posts(cls, url, session: ClientSession, browser: Browser):
+    async def get_posts(cls, url, session: ClientSession, browser: Browser) -> list[Post]:
         pass
 
     @classmethod
@@ -31,6 +32,14 @@ class Scrapper(ABC):
             session, browser = yield asyncio.create_task(
                 cls.get_posts(url, session, browser))
         return None
+
+    @classmethod
+    def save_media_in_storage(cls) -> str:
+        pass
+
+    @classmethod
+    def save_posts_in_database(cls):
+        pass
 
     @classmethod
     def _get_file_type(cls, file_extension: str):

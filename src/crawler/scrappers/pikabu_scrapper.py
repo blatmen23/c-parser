@@ -1,5 +1,4 @@
 import logging
-import time
 import datetime
 import json
 
@@ -7,22 +6,22 @@ from aiohttp import ClientSession
 from playwright.async_api import Browser
 from bs4 import BeautifulSoup
 
-from src.crawler.scrapper import Scrapper
+from src.crawler.scrappers.scrapper import Scrapper
 from src.schemas.schemas import Post, MediaContent, Source
-from src.schemas.enums import Platforms, Categories, MediaTypes
+from src.schemas.enums import Platforms, MediaTypes
 
 logger = logging.getLogger(__name__)
 
 
 class PikabuScrapper(Scrapper):
     urls: list = ["https://pikabu.ru/",
-                  "https://pikabu.ru/tag/Вертикальное%20видео",
-                  "https://pikabu.ru/tag/Видео",
-                  "https://pikabu.ru/tag/Юмор",
-                  "https://pikabu.ru/tag/США"]
-
+                  "https://pikabu.ru/tag/Вертикальное%20видео"]
+    # ,
+    #                   "https://pikabu.ru/tag/Видео",
+    #                   "https://pikabu.ru/tag/Юмор",
+    #                   "https://pikabu.ru/tag/США"]
     @classmethod
-    async def get_posts(cls, url: str, session: ClientSession, browser: Browser):
+    async def get_posts(cls, url: str, session: ClientSession, browser: Browser) -> list[Post]:
         page_content = await super().fetch_dynamic_page(url, browser)
         return cls._parse_posts(page_content)
 
@@ -46,6 +45,8 @@ class PikabuScrapper(Scrapper):
             except KeyError as e:
                 logger.info("Parsing exception", exc_info=e)
                 continue
+            except AttributeError as e:
+                logger.info("Parsing exception", exc_info=e)
 
             posts.append(Post(
                 identifier=identifier,
