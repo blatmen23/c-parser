@@ -13,8 +13,8 @@ aiohttp = "^3.11.10"
 bs4 = "^0.0.2"
 fake-useragent = "^2.0.3"
 brotli = "^1.1.0"
-lxml = "^5.3.0"
-requests = "^2.32.3"
+playwright = "^1.49.1"
+pydantic = {extras = ["all"], version = "^2.10.6"}
 
 
 [tool.poetry.group.dev.dependencies]

@@ -8,7 +8,6 @@ class Platforms(Enum):
     PIKABU = "Пикабу"
 
 class Categories(Enum):
-    NOT_SET = "not set"
     FUN = "funny"
     CRIME = "crime"
     REAL = "real"
@@ -27,5 +26,4 @@ class FileTypes(Enum):
     MP4 = "mp4"
     WEBM = "webm"
 
-    OTHER = ".other"
-
+    OTHER = "other"

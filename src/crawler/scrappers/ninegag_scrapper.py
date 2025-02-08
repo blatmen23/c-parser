@@ -1,13 +1,13 @@
 import asyncio
-from asyncio import Semaphore
 from aiohttp import ClientSession, ClientResponse
 from bs4 import BeautifulSoup
 from fake_useragent import UserAgent
-from src.data_classes import *
-from .scrapper import Scrapper
+from src.crawler.scrappers.scrapper import Scrapper
 
-class NineGAG(Scrapper):
-    urls = ["https://9gag.com/fresh"] * 5
+class NineGagScrapper(Scrapper):
+    urls: list = ["https://9gag.com/fresh",
+                  "https://9gag.com/trending",
+                  "https://9gag.com/top"]
 
     @classmethod
     def create_platform_task(cls):
@@ -63,7 +63,6 @@ class NineGAG(Scrapper):
             # caption =
 
             title = story.find("h2", class_="story__title").text
-
 
             # posts.append(Post(
             #     identifier=,
