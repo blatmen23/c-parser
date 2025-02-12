@@ -1,55 +1,42 @@
 from abc import ABC, abstractmethod
 import asyncio
+import logging
 
 from fake_useragent import UserAgent
-from aiohttp import ClientSession
-from playwright.async_api import Browser
+from aiohttp import ClientSession, ClientTimeout
+from playwright.async_api import Browser, BrowserContext, Page, TimeoutError
 
 from src.schemas.schemas import Post
 from src.schemas.enums import FileTypes
 
+logger = logging.getLogger(__name__)
 
-class Scrapper(ABC, ScrapperFilter, ScrapperMediaDownloader):
-    urls: list
+class Scrapper(ABC):
+    def __init__(self, browser: Browser, urls: list[str] = None):
+        self.browser = browser
+        self.urls = urls
+
+    @abstractmethod
+    async def get_posts(self, url) -> list[Post]:
+        pass
 
     @classmethod
     @abstractmethod
-    async def get_posts(cls, url, session: ClientSession, browser: Browser) -> list[Post]:
+    def parse_posts(cls, page_content: str):
         pass
 
-    @classmethod
-    @abstractmethod
-    def _parse_posts(cls, page_content: str):
-        pass
+    def create_platform_task(self):
+        return [self.get_posts(url) for url in self.urls]
 
-    @classmethod
-    def create_platform_task(cls):
-        session: ClientSession
-        browser: Browser
-        session, browser = yield
-
-        for url in cls.urls:
-            session, browser = yield asyncio.create_task(
-                cls.get_posts(url, session, browser))
-        return None
-
-    @classmethod
-    def save_media_in_storage(cls) -> str:
-        pass
-
-    @classmethod
-    def save_posts_in_database(cls):
-        pass
-
-    @classmethod
-    def _get_file_type(cls, file_extension: str):
+    @staticmethod
+    def get_file_type(file_extension: str):
         for file_type in FileTypes:
             if file_type.value == file_extension:
                 return file_type
         return FileTypes.OTHER
 
     @staticmethod
-    def get_headers():
+    def get_request_headers():
         return {
             "User-Agent": UserAgent().random,
             "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8",
@@ -60,6 +47,12 @@ class Scrapper(ABC, ScrapperFilter, ScrapperMediaDownloader):
             "X-Requested-With": "XMLHttpRequest"  # Для AJAX-запросов
         }
 
+    @classmethod
+    async def get_response_headers(cls, url):
+        async with cls.create_aiohttp_session() as session:
+            response = await session.head(url, headers=cls.get_request_headers())
+            return response.headers
+
     @staticmethod
     def get_aiohttp_proxy():
         pass
@@ -69,20 +62,26 @@ class Scrapper(ABC, ScrapperFilter, ScrapperMediaDownloader):
         pass
 
     @staticmethod
-    async def fetch_page(url: str, session: ClientSession, headers: dict = None, proxy: str = None):
-        async with session.get(url, headers=headers, proxy=proxy) as response:
-            return await response.text()
+    def create_aiohttp_session() -> ClientSession:
+        return ClientSession(trust_env=True, timeout=ClientTimeout(total=5))
 
-    @staticmethod
-    async def fetch_dynamic_page(url: str, browser: Browser):
-        context = await browser.new_context()
-        # proxy = {
-        #     "server": "proxy_host:port",
-        #     "username": "your_username",
-        #     "password": "your_password",
-        # }
+    async def fetch_static_page(self, url: str, headers: dict = None, proxy: str = None):
+        async with self.create_aiohttp_session() as session:
+            async with session.get(url, headers=headers, proxy=proxy) as response:
+                return await response.text()
+
+    async def fetch_dynamic_page(self, url: str, headers: dict = None, proxy: str = None):
+        context = await self.browser.new_context()
         page = await context.new_page()
-        await page.goto(url)
+
+        try:
+            # Устанавливаем таймаут 5 секунд (5000 миллисекунд)
+            await page.goto(url, timeout=5000)
+        except TimeoutError:
+            # Если страница не загрузилась за 5 секунд, просто продолжаем выполнение
+            logger.debug("Page did not loaded in 5 seconds: %s", url)
+
         content = await page.content()
+        await page.close()
         await context.close()
         return content

@@ -42,7 +42,7 @@ class NineGagScrapper(Scrapper):
         return await session.get(url=url, headers=headers)
 
     @classmethod
-    async def _parse_posts(cls, page: ClientResponse):
+    async def parse_posts(cls, page: ClientResponse):
         soup = BeautifulSoup(await page.text(), 'html.parser')
 
         stories = soup.find_all("article", class_="story_redesign")
