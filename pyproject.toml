@@ -15,11 +15,14 @@ fake-useragent = "^2.0.3"
 brotli = "^1.1.0"
 playwright = "^1.49.1"
 pydantic = {extras = ["all"], version = "^2.10.6"}
+aiohttp-socks = "^0.10.1"
+aiofiles = "^24.1.0"
 
 
 [tool.poetry.group.dev.dependencies]
 flake8 = "^7.1.1"
 alembic = "^1.14.0"
+setuptools = "^75.8.0"
 
 [build-system]
 requires = ["poetry-core"]

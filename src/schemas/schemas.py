@@ -1,15 +1,15 @@
 import datetime
-from typing_extensions import Annotated
 
 from pydantic import BaseModel, Field, HttpUrl, field_validator
-
 from .enums import Platforms, Categories, MediaTypes, FileTypes
 
 class MediaContent(BaseModel):
+    """file_size: int [bytes]"""
     media_type: MediaTypes
+    media_url: str
     file_type: FileTypes
-    media_url: HttpUrl
-    media_hash: str | None
+    file_size: int
+    file_hash: str | None
 
 class Source(BaseModel):
     url: HttpUrl
