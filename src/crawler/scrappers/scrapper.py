@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-import asyncio
+from aiohttp_socks import ProxyConnector
 import logging
 
 from fake_useragent import UserAgent
@@ -62,8 +62,15 @@ class Scrapper(ABC):
         pass
 
     @staticmethod
-    def create_aiohttp_session() -> ClientSession:
-        return ClientSession(trust_env=True, timeout=ClientTimeout(total=5))
+    def create_aiohttp_session(use_proxy: bool = False) -> ClientSession:
+        # потом этот юрл будем брать с методов каких-то
+        url = "socks5://sEefSS:RvzNqj@168.80.1.60:8000"
+        connector = ProxyConnector.from_url(url=url)
+
+        if not use_proxy:
+            return ClientSession(trust_env=True, timeout=ClientTimeout(total=5))
+        return ClientSession(trust_env=True, timeout=ClientTimeout(total=5), connector=connector)
+
 
     async def fetch_static_page(self, url: str, headers: dict = None, proxy: str = None):
         async with self.create_aiohttp_session() as session:

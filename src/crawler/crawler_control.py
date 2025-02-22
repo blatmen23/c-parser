@@ -1,12 +1,11 @@
 import logging
 import asyncio
 from itertools import chain
-from aiohttp import ClientSession, ClientTimeout
 from playwright.async_api import async_playwright
-from playwright.async_api import Browser
 
-from .scrappers import PikabuScrapper, NineGagScrapper
-from src.crawler.posts_collection import PostsCollection
+from .scrappers import PikabuScrapper
+from .collection import PostsFilter, MediaDownloader, PostsCategorizer
+from src.database.db_manager import DatabaseManager
 
 logger = logging.getLogger(__name__)
 
@@ -54,7 +53,7 @@ def make_pools_chain(platforms_tasks: list[list[asyncio.Task]]):
     return new_pools_chain
 
 def create_tasks_pools_chain(browser):
-    platforms: list = [PikabuScrapper(browser, urls=["https://pikabu.ru/tag/Видео"])]
+    platforms: list = [PikabuScrapper(browser, urls=["https://pikabu.ru/"])]
     platforms_tasks = [platform.create_platform_task() for platform in platforms]
     tasks_pools_chain = make_pools_chain(platforms_tasks)
     return tasks_pools_chain
@@ -75,7 +74,21 @@ async def get_posts_chunk():
 
 async def take_posts():
     async for posts_chunk in get_posts_chunk():
-        posts_collection_chunk = PostsCollection(posts_chunk)
-        posts_collection_chunk.filter_posts()
-        await posts_collection_chunk.download_media()
+        # тут можно asyncio.Queue
+
+        posts_chunk = PostsFilter(posts_chunk).filter_posts()  # вернёт массив где
+        logger.debug("Posts has been filtered out. Posts in chunk: %s", len(posts_chunk))
+
+        posts_chunk = await PostsCategorizer(posts_chunk).categorize_posts()
+        logger.debug("Posts media has been categorized. Posts in chunk: %s", len(posts_chunk))
+
+        posts_chunk = await MediaDownloader(posts_chunk).download_posts_media()
+        logger.debug("Posts media has been downloaded. Posts in chunk: %s", len(posts_chunk))
+
+        uploading_data = await DatabaseManager().add_posts(posts_chunk)
+        logger.debug("Posts media has been upload in database: %s", uploading_data)
+
+        await asyncio.sleep(1)
+        logger.debug("The result of the work: %s", posts_chunk)
+
 # celery
