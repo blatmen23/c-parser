@@ -1,5 +1,5 @@
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
-from sqlalchemy import text, String, LargeBinary, TIMESTAMP, ForeignKey
+from sqlalchemy import text, String, LargeBinary, TIMESTAMP, DATETIME, ForeignKey
 
 from src.database.overbuilds import intpk, str_32, str_64, str_128, str_256, str_512
 from src.schemas.enums import Platforms, Categories, MediaTypes, FileTypes
@@ -38,16 +38,14 @@ class Posts(Base):
     __tablename__ = "posts"
 
     id: Mapped[intpk]
+    identifier: Mapped[str_256] # = mapped_column(unique=True)
     category: Mapped[Optional[Categories]]
-    media_id: Mapped[Optional[int]] = mapped_column(unique=True)
-    comments_id: Mapped[Optional[int]] = mapped_column(unique=True)
-    source_id: Mapped[int] = mapped_column(unique=True)
     caption: Mapped[Optional[str_512]]
-    create_at: Mapped[TIMESTAMP] = mapped_column(TIMESTAMP, server_default=text("CURRENT_TIMESTAMP"))
+    create_at: Mapped[DATETIME] = mapped_column(DATETIME)
 
     media_contents: Mapped[list["MediaContents"]] = relationship(back_populates="posts")
     comments: Mapped[list["Comments"]] = relationship(back_populates="posts")
-    source: Mapped["Sources"] = relationship(back_populates="posts")
+    sources: Mapped["Sources"] = relationship(back_populates="posts")
     posts_tags: Mapped["PostsTags"] = relationship(back_populates="posts")
 
 
@@ -57,10 +55,12 @@ class MediaContents(Base):
     id: Mapped[intpk]
     post_id: Mapped[int] = mapped_column(ForeignKey("posts.id", ondelete="CASCADE"))
     media_type: Mapped[MediaTypes]
+    media_url: Mapped[str_512]
     file_type: Mapped[FileTypes]
-    binary_data: Mapped[LargeBinary] = mapped_column(LargeBinary)
+    file_size: Mapped[int]
+    file_hash: Mapped[str_128]  # = mapped_column(unique=True)
 
-    post: Mapped["Posts"] = relationship(back_populates="media_contents")
+    posts: Mapped["Posts"] = relationship(back_populates="media_contents")
 
 
 class Comments(Base):
@@ -68,11 +68,10 @@ class Comments(Base):
 
     id: Mapped[intpk]
     post_id: Mapped[int] = mapped_column(ForeignKey("posts.id", ondelete="CASCADE"))
-    rating: Mapped[int]
+    capacity: Mapped[int] = mapped_column()
     comment: Mapped[str_256]
-    media_id: Mapped[Optional[int]] = mapped_column(ForeignKey("media_contents.id", ondelete="CASCADE"))
 
-    post: Mapped["Posts"] = relationship(back_populates="comments")
+    posts: Mapped["Posts"] = relationship(back_populates="comments")
 
 
 class Sources(Base):
@@ -82,6 +81,6 @@ class Sources(Base):
     post_id: Mapped[int] = mapped_column(ForeignKey("posts.id", ondelete="CASCADE"))
     url: Mapped[str_512]
     platform: Mapped[Platforms]
-    posting_date: Mapped[TIMESTAMP] = mapped_column(TIMESTAMP)
+    posting_at: Mapped[DATETIME] = mapped_column(DATETIME)
 
-    post: Mapped["Posts"] = relationship(back_populates="sources")
+    posts: Mapped["Posts"] = relationship(back_populates="sources")

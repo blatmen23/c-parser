@@ -1,6 +1,6 @@
 import datetime
 
-from pydantic import BaseModel, Field, HttpUrl, field_validator
+from pydantic import BaseModel, Field, ConfigDict, field_validator
 from .enums import Platforms, Categories, MediaTypes, FileTypes
 
 class MediaContent(BaseModel):
@@ -11,10 +11,14 @@ class MediaContent(BaseModel):
     file_size: int
     file_hash: str | None
 
+    model_config = ConfigDict(use_enum_values=True)
+
 class Source(BaseModel):
-    url: HttpUrl
+    url: str
     platform: Platforms
     posting_at: datetime.datetime
+
+    model_config = ConfigDict(use_enum_values=True)
 
 class Post(BaseModel):
     identifier: str
@@ -26,6 +30,8 @@ class Post(BaseModel):
     caption: str | None
     create_at: datetime.datetime
     posts_tags: list[str] | None
+
+    model_config = ConfigDict(use_enum_values=True)
 
     @field_validator('media', 'comments', mode='before')
     def convert_empty_list_to_none(cls, v):

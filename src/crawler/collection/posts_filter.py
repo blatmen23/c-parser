@@ -18,12 +18,14 @@ class PostsFilter:
         valid_posts = list()
         for post in self.posts:
             if post.media is None:
+                valid_posts.append(post)
                 continue
 
             if all(media.file_size < (1024 * 1024 * 10) for media in post.media):
                 valid_posts.append(post)
             else:
-                valid_posts.append(None)
+                post.media = None  # media -> None
+                valid_posts.append(post)
         self.posts = valid_posts
 
     def _clear_no_valid_posts(self):
