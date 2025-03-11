@@ -58,7 +58,7 @@ class MediaContents(Base):
     media_url: Mapped[str_512]
     file_type: Mapped[FileTypes]
     file_size: Mapped[int]
-    file_hash: Mapped[str_128]  # = mapped_column(unique=True)
+    file_hash: Mapped[str_128] = mapped_column(nullable=True)  # unique=True
 
     posts: Mapped["Posts"] = relationship(back_populates="media_contents")
 

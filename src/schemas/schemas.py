@@ -26,7 +26,7 @@ class Post(BaseModel):
     media: list[MediaContent] | None
     comments: list[str] | None
     source: Source
-    title: str
+    title: str | None
     caption: str | None
     create_at: datetime.datetime
     posts_tags: list[str] | None

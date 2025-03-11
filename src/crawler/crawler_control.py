@@ -1,9 +1,10 @@
+import pprint
 import logging
 import asyncio
 from itertools import chain
 from playwright.async_api import async_playwright
 
-from .scrappers import PikabuScrapper
+from .scrappers import PikabuScrapper, NineGagScrapper, JoyreactorScrapper
 from .collection import PostsFilter, MediaDownloader, PostsCategorizer
 from src.database.db_manager import DatabaseManager
 
@@ -53,7 +54,7 @@ def make_pools_chain(platforms_tasks: list[list[asyncio.Task]]):
     return new_pools_chain
 
 def create_tasks_pools_chain(browser):
-    platforms: list = [PikabuScrapper(browser, urls=["https://pikabu.ru/"])]
+    platforms: list = [JoyreactorScrapper(browser), PikabuScrapper(browser)]
     platforms_tasks = [platform.create_platform_task() for platform in platforms]
     tasks_pools_chain = make_pools_chain(platforms_tasks)
     return tasks_pools_chain
@@ -76,19 +77,18 @@ async def take_posts():
     async for posts_chunk in get_posts_chunk():
         # тут можно asyncio.Queue
 
-        posts_chunk = PostsFilter(posts_chunk).filter_posts()  # вернёт массив где
+        posts_chunk = await PostsFilter(posts_chunk).filter_posts()  # вернёт массив где
         logger.debug("Posts has been filtered out. Posts in chunk: %s", len(posts_chunk))
-
-        posts_chunk = await PostsCategorizer(posts_chunk).categorize_posts()
-        logger.debug("Posts media has been categorized. Posts in chunk: %s", len(posts_chunk))
 
         posts_chunk = await MediaDownloader(posts_chunk).download_posts_media()
         logger.debug("Posts media has been downloaded. Posts in chunk: %s", len(posts_chunk))
 
+        posts_chunk = await PostsCategorizer(posts_chunk).set_category_by_ai()
+        logger.debug("Posts media has been categorized. Posts in chunk: %s", len(posts_chunk))
+
         uploading_data = await DatabaseManager().add_posts(posts_chunk)
         logger.debug("Posts media has been upload in database: %s", uploading_data)
 
-        await asyncio.sleep(1)
         logger.debug("The result of the work: %s", posts_chunk)
 
 # celery
