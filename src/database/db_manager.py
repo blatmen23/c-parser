@@ -1,5 +1,6 @@
 import logging
 from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy import select
 
 from src.schemas.schemas import Source as SourceSchemas, MediaContent as MediaContentSchemas, Post as PostSchema
 from src.database.models import Posts, PostsTags, Tags, MediaContents, Sources, Comments
@@ -79,4 +80,10 @@ class DatabaseManager:
             if post.posts_tags is not None:
                 await self._add_tags(post_id, post.posts_tags, session)
         await session.commit()
+
+    @connection
+    async def post_exist(self, post_identifier: str, session: AsyncSession) -> bool:
+        query = select(Posts.identifier).where(Posts.identifier == post_identifier)
+        result = await session.execute(query)
+        return result.scalar() is not None
 

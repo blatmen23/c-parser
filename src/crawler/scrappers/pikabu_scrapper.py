@@ -16,10 +16,8 @@ logger = logging.getLogger(__name__)
 class PikabuScrapper(Scrapper):
     def __init__(self, browser: Browser, urls: list[str] = None):
         default_urls = ["https://pikabu.ru/",
-                        "https://pikabu.ru/tag/Вертикальное%20видео"
-                        "https://pikabu.ru/tag/Видео",
-                        "https://pikabu.ru/tag/Юмор",
-                        "https://pikabu.ru/tag/США"]
+                        "https://pikabu.ru/best",
+                        "https://pikabu.ru/new"]
         super().__init__(browser, urls or default_urls)
 
     async def get_posts(self, url: str) -> list[Post]:
@@ -80,7 +78,7 @@ class PikabuScrapper(Scrapper):
             file_size = int(media_headers["Content-Length"])
 
             media_content.append(MediaContent(
-                media_type=MediaTypes.VIDEO,
+                media_type=MediaTypes.IMAGE,
                 media_url=media_url,
                 file_type=file_type,
                 file_size=file_size,
@@ -111,7 +109,7 @@ class PikabuScrapper(Scrapper):
         url = story.find("a", class_="story__title-link")["href"]
         story_data = story.find("script", type="application/ld+json").text
         story_dict = json.loads(story_data)
-        posting_at = datetime.datetime.fromisoformat(story_dict["datePublished"]).timestamp()
+        posting_at = datetime.datetime.fromisoformat(story_dict["datePublished"])
 
         source = Source(
             url=url,
