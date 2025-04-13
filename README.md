@@ -1,1 +1,1 @@
-asyncio / sqlalchemy+alembic (MariaDB) / aiohttp / pydantic
+asyncio / sqlalchemy+alembic (MariaDB) / aiohttp, playwright / pydantic / yandex AI
